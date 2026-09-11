@@ -2,9 +2,10 @@ package com.subinbabu.cakelist.feature.cakelist.domain.usecase
 
 import com.subinbabu.cakelist.feature.cakelist.domain.model.Cake
 import com.subinbabu.cakelist.feature.cakelist.domain.repository.CakeRepository
+import jakarta.inject.Inject
 import java.util.Locale
 
-class GetCakesUseCase(
+class GetCakesUseCase @Inject constructor(
     private val repository: CakeRepository,
 ) {
 
