@@ -44,6 +44,7 @@ class CakeListViewModel @Inject constructor(
             try {
                 val cakes = getCakesUseCase()
                 _uiState.value = CakeListUiState.Content(cakes = cakes)
+                if (isRefresh) _snackbarMessage.emit(REFRESH_SUCCESS_MESSAGE)
             } catch (exception: CancellationException) {
                 throw exception
             } catch (exception: Exception) {
@@ -71,5 +72,6 @@ class CakeListViewModel @Inject constructor(
     private companion object {
         const val LOAD_ERROR_MESSAGE = "Unable to load cakes. Please try again."
         const val REFRESH_ERROR_MESSAGE = "Unable to refresh cakes. Please try again."
+        const val REFRESH_SUCCESS_MESSAGE = "Cakes refreshed."
     }
 }

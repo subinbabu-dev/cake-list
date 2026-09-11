@@ -117,7 +117,7 @@ class CakeListViewModelTest {
         }
 
     @Test
-    fun `refresh keeps existing cakes visible and updates content`() =
+    fun `refresh keeps existing cakes visible updates content and emits snackbar`() =
         runTest(mainDispatcherRule.testDispatcher) {
             val initialCakes = listOf(
                 cake("Chocolate Cake"),
@@ -139,12 +139,21 @@ class CakeListViewModelTest {
 
             advanceUntilIdle()
 
+            val messages = mutableListOf<String>()
+
+            backgroundScope.launch(
+                UnconfinedTestDispatcher(testScheduler),
+            ) {
+                viewModel.snackbarMessage.toList(messages)
+            }
+
             viewModel.refresh()
 
             val refreshingState =
                 viewModel.uiState.value as CakeListUiState.Content
 
             assertTrue(refreshingState.isRefreshing)
+
             assertEquals(
                 initialCakes,
                 refreshingState.cakes,
@@ -162,6 +171,12 @@ class CakeListViewModelTest {
                     "Chocolate Cake",
                 ),
                 refreshedState.cakes.map { it.title },
+            )
+            assertEquals(
+                listOf(
+                    "Cakes refreshed.",
+                ),
+                messages,
             )
         }
 
