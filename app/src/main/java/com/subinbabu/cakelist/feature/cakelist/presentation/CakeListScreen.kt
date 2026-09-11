@@ -99,6 +99,7 @@ fun CakeListScreen(
                         uiState as? CakeListUiState.Content
 
                     if (content != null) {
+                        // TODO: Add pull-to-refresh as an additional refresh interaction.
                         TextButton(
                             onClick = onRefresh,
                             enabled = !content.isRefreshing,
@@ -180,6 +181,7 @@ private fun CakeListContent(
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
 
+        // TODO: Add an explicit empty state when the API returns no cakes.
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
         ) {
